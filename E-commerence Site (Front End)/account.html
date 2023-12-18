@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIG BAZAAR</title>
+    <link rel="stylesheet" href="CSS/bazar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+</head>
+<div>
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="images/Logo.png" width="175px">
+                </div>
+                <nav>
+                    <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                    </ul>
+                </nav>
+                <!-- <img src="images/cart.png" width="30px" height="30"> -->
+            </div>
+        </div>
+    </div>
+<!-- Account Page -->
+<div class="account-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <img src="images/image1.png" width="100%">
+            </div>
+            <div class="col-2">
+                    <div class="form-container">
+                        <div class="form-btn">
+                            <span onclick="login()">Login</span>
+                            <span onclick="register()">Register</span>
+                            <hr id="Indicator">
+                        </div>
+
+                        <form id="Loginform">
+                            <input type="Email" placeholder="Email">
+                            <input type="password" placeholder="Password"> 
+                            <button type="submit" class="btn">Login</button>
+                            <a href="account.html">Forgot Password</a>
+                        </form>
+                        <form id="RegForm">
+                            <input type="text" placeholder="Username">
+                            <input type="Email" placeholder="Email">
+                            <input type="password" placeholder="Password"> 
+                            <button type="submit" class="btn">Register </button>
+                            
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!---footer-->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Available on Android And IOS.</p>
+                <div class="app-logo">
+                    <img src="images/play-store.png">
+                    <img src="images/app-store.png">
+                </div>
+            </div>
+            <div class="footer-col-2">
+                <img src="images/Logo.png">
+                <p>Our Purpose Is To Sustainably Make Pleaseure And
+                    Benifits of Online Bazaar.</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Use Full Links</h3>
+                <ul>
+                    <li>Cupons</li>
+                    <li>Blog Post</li>
+                    <li>Return Policy</li>
+                    <li>Join Affiliate</li>
+                </ul>
+            </div>
+            <div class="footer-col-4">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li>Faceboook</li>
+                    <li>Instagarm</li>
+                    <li>YouTube</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  js for toggle form -->
+<script>
+
+    var Loginform = document.getElementById("Loginform");
+    var RegForm = document.getElementById("RegForm");
+    var Indictaor =document.getElementById("Indicator");
+
+        function register(){
+            RegForm.style.transform= "translateX(0px)";
+            Loginform.style.transform= "translateX(0px)";
+            Indictaor.style.transform= "translateX(100px)";
+        }
+        function login(){
+            RegForm.style.transform= "translateX(300px)";
+            Loginform.style.transform= "translateX(300px)";
+            Indictaor.style.transform= "translateX(0px)";
+        }
+
+</script>
+</body> 
+</html>
