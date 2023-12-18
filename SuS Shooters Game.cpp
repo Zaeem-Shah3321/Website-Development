@@ -10,6 +10,7 @@ void print_enemy_2();
 void erase_enemy_2();
 string changeDirection_1(string);
 string changeDirection_2(string);
+string changeDirection_3(string);
 void print_player();
 void erase_player();
 void move_player_left();
@@ -18,6 +19,9 @@ void move_player_up ();
 void move_player_down ();
 void move_enemy_1(string);
 void move_enemy_2(string);
+void move_enemy_3(string);
+void print_enemy_3();
+void erase_enemy_3();
 void print_maze();
 void printfire();
 void movefire();
@@ -27,6 +31,7 @@ void won();
 string setcolor(unsigned short color);
 int eX1 = 15 , eY1 = 1;
 int eX2 = 100, eY2 = 10;
+int eX3 = 80 , eY3 = 2;
 int pX = 1 , pY = 24;
 int bonus = 0;
 int fX = 0 , fY = 0;
@@ -34,6 +39,7 @@ int scores = 0;
 bool bullet = false;
 int enemyhealth1 = 10;
 int enemyhealth2 = 5;
+int enemyhealth3 = 15;
 main ()
 {
     system ("cls");
@@ -43,10 +49,12 @@ main ()
     print_maze ();
     print_enemy_1 ();
     print_enemy_2 ();
+    print_enemy_3();
     print_player ();
     bool woon = false;
     string enemyDirection_1 = "right";
     string enemyDirection_2 = "down";
+    string enemyDirection_3 = "up";
         while(true)
         {
         if (GetAsyncKeyState(VK_LEFT))
@@ -81,7 +89,7 @@ main ()
         {
             score();
         }
-        if (enemyhealth1 == 0 && enemyhealth2 == 0)
+        if (enemyhealth1 == 0 && enemyhealth2 == 0 && enemyhealth3 == 0)
         {
             won();
             woon = true;
@@ -100,24 +108,48 @@ main ()
         }
         enemyDirection_2 = changeDirection_2(enemyDirection_2);
         Sleep (1);
-        }
         
-        return 0;
-    }
+        if (enemyhealth3 != 0)
+        {
+            move_enemy_3(enemyDirection_3);
+        }
+        enemyDirection_3 = changeDirection_3(enemyDirection_3);
+        Sleep(1);
+        }
+    }   
+    
 void score()
 {
     setcolor(14);
-    gotoxy (0,26);
-    cout << "########################################################################################################################" << endl;
-    gotoxy (0,27);
-    cout << "#   Score : " << scores << "                 Enemy 1 Health: " << enemyhealth1 << "                 Enemy 2 Health: " << enemyhealth2 <<"                                     #"<<endl;
-    gotoxy (0,28);
-    cout << "########################################################################################################################" << endl;
+    gotoxy (125,1);
+    cout << "####################################" << endl;
+    gotoxy (125,2);
+    cout << "#            Score: " << scores << "             #";
+    gotoxy (125,3);
+    cout << "####################################" << endl;
+    gotoxy (125,6);
+    cout << "####################################" << endl;
+    gotoxy (125,7);
+    cout << "#        Eneme 1 Health: " << enemyhealth1 << "        #";
+    gotoxy (125,8);
+    cout << "####################################" << endl;
+     gotoxy (125,11);
+    cout << "####################################" << endl;
+    gotoxy (125,12);
+    cout << "#        Eneme 2 Health: " << enemyhealth2 << "         #";
+    gotoxy (125,13);
+    cout << "####################################" << endl;
+     gotoxy (125,16);
+    cout << "####################################" << endl;
+    gotoxy (125,17);
+    cout << "#        Eneme 3 Health: " << enemyhealth3 << "         #";
+    gotoxy (125,18);
+    cout << "####################################" << endl;
 }
 
 void print_maze ()
 {
-    setcolor(2);
+    setcolor(7);
     cout << "########################################################################################################################" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
@@ -205,6 +237,18 @@ string changeDirection_2(string direction)
     }
     return direction;
 }
+string changeDirection_3(string direction)
+{
+    if (direction == "up" && eY3 >=20)
+    {
+        direction = "down";
+    }
+    if (direction == "down" && eY2 <= 10)
+    {
+        direction = "up";
+    }
+    return direction;
+}
 void print_enemy_1 ()
 {
     setcolor(4);
@@ -280,6 +324,44 @@ void move_enemy_2 (string direction)
         eY2 = eY2 - 1;
     }
     print_enemy_2();
+}
+void print_enemy_3()
+{
+    setcolor(2);
+    gotoxy (eX3 , eY3);
+    cout << "  @..@   ";
+    gotoxy (eX3 , eY3 + 1);
+    cout << " (----)  ";
+    gotoxy (eX3,eY3 + 2);
+    cout << "(>____<) ";
+    gotoxy(eX3,eY3 + 3);
+    cout << "^^ ~~ ^^ ";
+}
+void erase_enemy_3()
+{
+    gotoxy (eX3 , eY3);
+    cout << "         ";
+    gotoxy (eX3 , eY3 + 1);
+    cout << "         ";
+    gotoxy (eX3 , eY3 + 2);
+    cout << "         ";
+    gotoxy(eX3 , eY3 + 3);
+    cout << "         ";
+}
+void move_enemy_3(string direction)
+{
+    erase_enemy_3();
+    if (direction == "down")
+    {        
+        eX3 = eX3 + 1;
+        eY3 = eY3 - 1;
+    }    
+    else if(direction == "up")
+    { 
+        eX3 = eX3 - 1;
+        eY3 = eY3 + 1;
+    }
+    print_enemy_3();
 }
 void move_player_left() 
 {
@@ -360,7 +442,7 @@ void movefire()
             erase_enemy_2();
         }
     }
-    else if (getCharAtxy(fX + 1 , fY) == '{' || getCharAtxy(fX + 1 , fY) == '}' || getCharAtxy(fX + 1 , fY) == 'x' || getCharAtxy(fX + 1 , fY) == '('|| getCharAtxy(fX + 1 , fY) == ')')
+    else if (getCharAtxy(fX + 1 , fY) == '{' || getCharAtxy(fX + 1 , fY) == '}' || getCharAtxy(fX + 1 , fY) == 'x' || getCharAtxy(fX + 1 , fY) == ')')
     {
         enemyhealth1--;
         scores = scores + 2;
@@ -368,6 +450,16 @@ void movefire()
         if (enemyhealth1 == 0)
         {
             erase_enemy_1();
+        }
+    }
+    else if (getCharAtxy(fX + 1 , fY) == '@' || getCharAtxy(fX + 1 , fY) == '(' || getCharAtxy(fX + 1 , fY) == '~' || getCharAtxy(fX + 1 , fY) == '^')
+    {
+        enemyhealth3--;
+        scores = scores + 3;
+        bullet = false;
+        if (enemyhealth3 == 0)
+        {
+            erase_enemy_3();
         }
     }
     else 
