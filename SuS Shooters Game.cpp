@@ -28,6 +28,7 @@ void movefire();
 void printName();
 void score();
 void won();
+void lose();
 string setcolor(unsigned short color);
 int eX1 = 15 , eY1 = 1;
 int eX2 = 100, eY2 = 10;
@@ -37,9 +38,26 @@ int bonus = 0;
 int fX = 0 , fY = 0;
 int scores = 0;
 bool bullet = false;
-int enemyhealth1 = 10;
-int enemyhealth2 = 5;
-int enemyhealth3 = 15;
+int enemyhealth1 = 5;
+int enemyhealth2 = 15;
+int enemyhealth3 = 10;
+int playerhealth = 20;
+bool e1fire = false;
+bool e2fire = false;
+bool e3fire = false;
+void e1PrintFire();
+void e2PrintFire();
+void e3PrintFire();
+void e1MoveFire();
+void e2MoveFire();
+void e3MoveFire();
+int e1fx = 0, e1fy = 0;
+int e2fx = 0, e2fy = 0;
+int e3fx = 0, e3fy = 0;
+void e3MoveFire();
+void e3PrintFire();
+void e2MoveFire();
+void e2PrintFire();
 main ()
 {
     system ("cls");
@@ -95,7 +113,11 @@ main ()
             woon = true;
             return 0;
         }
-
+        if (playerhealth == 0)
+        {
+            lose();
+            return 0;
+        }
         if (enemyhealth1 != 0)
         {
             move_enemy_1(enemyDirection_1);
@@ -113,11 +135,142 @@ main ()
         {
             move_enemy_3(enemyDirection_3);
         }
+        if (!e1fire)
+        {
+            e1PrintFire();
+            e1fire = true;
+        }
+        if (e1fire)
+        {
+            e1MoveFire();
+        }
+        if (!e2fire)
+        {
+            e2PrintFire();
+            e2fire = true;
+        }
+        if (e2fire)
+        {
+            e2MoveFire();
+        }
+        if (!e3fire)
+        {
+            e3PrintFire();
+            e3fire = true;
+        }
+        if (e3fire)
+        {
+            e3MoveFire();
+        }
+
         enemyDirection_3 = changeDirection_3(enemyDirection_3);
         Sleep(1);
         }
-    }   
+    }  
+    void e3PrintFire()
+    {
+        e3fx = eX3 - 3;
+        e3fy = eY3 + 2;
+        gotoxy(e3fx , e3fy);
+        setcolor(12);
+        cout << "(";
+    }
+    void e3MoveFire()
+    {
+        if (enemyhealth3 != 0)
+        {
+        gotoxy(e3fx , e3fy);
+        cout << " ";
+        if (getCharAtxy(e3fx - 1, e3fy) == ' ')
+        {
+            e3fx -= 1;
+            gotoxy(e3fx , e3fy);
+            cout << "(";
+        }
+        else if (getCharAtxy(e3fx - 1 , e3fy) == '*')
+        {
+            playerhealth = playerhealth - 2;
+            e3fire = false;
+            gotoxy(e3fx , e3fy);
+            cout << " ";
+        }
+        else
+        {
+            e3fire = false;
+        }
+        }
+    }
+    void e2PrintFire()
+    {
+        e2fx = eX2 - 3;
+        e2fy = eY2 + 3;
+        gotoxy(e2fx , e2fy);
+        setcolor(12);
+        cout << "<";
     
+    } 
+void e2MoveFire()
+{ 
+    if (enemyhealth2 != 0)
+    {
+        gotoxy(e2fx , e2fy);
+        cout << " ";
+        if (getCharAtxy(e2fx - 1, e2fy) == ' ')
+        {
+            e2fx -= 1;
+            gotoxy(e2fx , e2fy);
+            cout << "<";
+        }
+        else if (getCharAtxy(e2fx - 1 , e2fy) == '*')
+        {
+            playerhealth--;
+            e2fire = false;
+            gotoxy(e2fx , e2fy);
+            cout << " ";
+
+        }
+        else
+        {
+            e2fire = false;
+        }
+    }
+
+}
+void e1MoveFire()
+{
+    if (enemyhealth1 != 0)
+    {
+    gotoxy(e1fx , e1fy);
+    cout << " ";
+    if (getCharAtxy(e1fx, e1fy + 1) == ' ')
+    {
+        e1fy += 1;
+        gotoxy(e1fx , e1fy);
+        cout << "v";
+    }
+    else if (getCharAtxy(e1fx  , e1fy + 1) == '*')
+    {
+        playerhealth--;
+        e1fire = false;
+        gotoxy(e1fx , e1fy);
+        cout << " ";
+        
+    }
+    else
+    {
+        e1fire = false;
+    }
+    }
+
+}
+void e1PrintFire()
+{
+    e1fx = eX1 + 4;
+    e1fy = eY1 + 5;
+    gotoxy(e1fx , e1fy);
+    setcolor(12);
+    cout << "v";
+}
 void score()
 {
     setcolor(14);
@@ -145,6 +298,13 @@ void score()
     cout << "#        Eneme 3 Health: " << enemyhealth3 << "         #";
     gotoxy (125,18);
     cout << "####################################" << endl;
+    gotoxy (125,21);
+    cout << "####################################" << endl;
+    gotoxy (125,22);
+    cout << "#        Player Health: " << playerhealth << "         #";
+    gotoxy (125,23);
+    cout << "####################################" << endl;
+    
 }
 
 void print_maze ()
@@ -153,16 +313,16 @@ void print_maze ()
     cout << "########################################################################################################################" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
+    cout << "#                                                                                                                $     #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
+    cout << "#            $                                                                                                         #" << endl;
     cout << "#                                                                                                                      #" << endl;
-    cout << "#                                                                                                                      #" << endl;
-    cout << "#                                                                                                                      #" << endl;
-    cout << "#                                                                                                                      #" << endl;
+    cout << "#                                                     $                                                                #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
     cout << "#                                                                                                                      #" << endl;
@@ -257,7 +417,7 @@ void print_enemy_1 ()
     gotoxy (eX1 , eY1 + 1);
     cout << "  {    } " << endl;
     gotoxy (eX1 , eY1 + 2);
-    cout << " ( O  O ) " << endl;
+    cout << " [ O  O ] " << endl;
     gotoxy (eX1 , eY1 + 3);
     cout << "  {    }  " << endl;
     gotoxy (eX1 , eY1 + 4);
@@ -368,7 +528,7 @@ void move_player_left()
     if (getCharAtxy(pX - 1 , pY) == '$'  || getCharAtxy(pX - 1 , pY-1) == '$' || getCharAtxy(pX - 1, pY-2) == '$'||getCharAtxy(pX - 1, pY-3) == '$'||getCharAtxy(pX -1 , pY-4) == '$'||getCharAtxy(pX  - 1, pY-5) == '$'||getCharAtxy(pX - 1, pY-6) == '$')
     {
         erase_player();
-        bonus = bonus + 1;
+        playerhealth = playerhealth + 3;
         pX = pX + 1 ;
         print_player();
     } 
@@ -384,7 +544,7 @@ void move_player_right()
     if (getCharAtxy(pX + 11, pY) == '$'  || getCharAtxy(pX + 11, pY-1) == '$' || getCharAtxy(pX + 11, pY-2) == '$'||getCharAtxy(pX + 11, pY-3) == '$'||getCharAtxy(pX + 11, pY-4) == '$'||getCharAtxy(pX + 11, pY-5) == '$'||getCharAtxy(pX + 11, pY-6) == '$')
     {
         erase_player();
-        bonus = bonus + 1;
+        playerhealth = playerhealth + 3;
         pX = pX + 1 ;
         print_player();
     } 
@@ -442,7 +602,7 @@ void movefire()
             erase_enemy_2();
         }
     }
-    else if (getCharAtxy(fX + 1 , fY) == '{' || getCharAtxy(fX + 1 , fY) == '}' || getCharAtxy(fX + 1 , fY) == 'x' || getCharAtxy(fX + 1 , fY) == ')')
+    else if (getCharAtxy(fX + 1 , fY) == '{' || getCharAtxy(fX + 1 , fY) == '}' || getCharAtxy(fX + 1 , fY) == 'x' || getCharAtxy(fX + 1 , fY) == '[' || getCharAtxy(fX + 1 , fY) == ']' )
     {
         enemyhealth1--;
         scores = scores + 2;
@@ -452,7 +612,7 @@ void movefire()
             erase_enemy_1();
         }
     }
-    else if (getCharAtxy(fX + 1 , fY) == '@' || getCharAtxy(fX + 1 , fY) == '(' || getCharAtxy(fX + 1 , fY) == '~' || getCharAtxy(fX + 1 , fY) == '^')
+    else if (getCharAtxy(fX + 1 , fY) == '@' || getCharAtxy(fX + 1 , fY) == '(' || getCharAtxy(fX + 1 , fY) == '~' || getCharAtxy(fX + 1 , fY) == '^' || getCharAtxy(fX + 1 , fY) == ')' || getCharAtxy(fX + 1 , fY) == '. ')
     {
         enemyhealth3--;
         scores = scores + 3;
@@ -500,6 +660,22 @@ void won()
     cout << endl;
     cout << endl;
     cout << "<=================== Good Job SuS , All Aliens Killed , Earth Is Saved ==============>";
+}
+void lose()
+{
+    system("cls");
+    cout << R"(                                                                     .-')      ('-.  )" << endl; 
+    cout << R"(                                                                    ( OO ).  _(  OO) )" << endl; 
+    cout << R"(  ,--.   ,--..-'),-----.  ,--. ,--.          ,--.      .-'),-----. (_)---\_)(,------.)" << endl; 
+    cout << R"(   \  `.'  /( OO'  .-.  ' |  | |  |          |  |.-') ( OO'  .-.  '/    _ |  |  .---')" << endl; 
+    cout << R"( .-')     / /   |  | |  | |  | | .-')        |  | OO )/   |  | |  |\  :` `.  |  |    )" << endl; 
+    cout << R"((OO  \   /  \_) |  |\|  | |  |_|( OO )       |  |`-' |\_) |  |\|  | '..`''.)(|  '--. )" << endl; 
+    cout << R"( |   /  /\_   \ |  | |  | |  | | `-' /      (|  '---.'  \ |  | |  |.-._)   \ |  .--' )" << endl; 
+    cout << R"( `-./  /.__)   `'  '-'  '('  '-'(_.-'        |      |    `'  '-'  '\       / |  `---.)" << endl; 
+    cout << R"(   `--'          `-----'   `-----'           `------'      `-----'  `-----'  `------')" << endl;    
+    cout << endl; 
+    cout << endl; 
+    cout << "<==================================== Earth Is Destroyed ================================>"; 
 }
 void gotoxy (int x , int y)
 {
